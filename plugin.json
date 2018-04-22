@@ -1,0 +1,6 @@
+{
+  "name": "metadata-env",
+  "description": "Set and retrieve environment variables from metadata",
+  "author": "@vital-software",
+  "public": true
+}

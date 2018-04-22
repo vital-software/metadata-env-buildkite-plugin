@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -euo pipefail
+
+debug_mode='off'
+if [[ "${BUILDKITE_PLUGIN_METADATA_ENV_DEBUG:-false}" =~ (true|on|1) ]] ; then
+  echo "--- :hammer: Enabling debug mode"
+  debug_mode='on'
+  set -x
+fi
+
+DIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
+
+. "$DIR/../lib/shared.bash"
+. "$DIR/../lib/metadata.bash"
+
+set="$(plugin_read_list GET)"
+
+echo "Got value: ${get}"
