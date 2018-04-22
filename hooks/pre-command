@@ -14,6 +14,7 @@ DIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
 . "$DIR/../lib/shared.bash"
 . "$DIR/../lib/metadata.bash"
 
-set="$(plugin_read_list GET)"
+set="$(plugin_read_list SET)"
 
-echo "Got value: ${get}"
+env
+echo "Got SET value: ${set}"
