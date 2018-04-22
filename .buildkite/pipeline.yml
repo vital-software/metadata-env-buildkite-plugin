@@ -1,0 +1,5 @@
+steps:
+  - label: "Run tests"
+    plugins:
+      docker-compose#v2.0.0:
+        run: tests
