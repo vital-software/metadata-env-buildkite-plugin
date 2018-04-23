@@ -20,7 +20,7 @@ while IFS=$'\n' read -r env ; do
   [[ -n "${env:-}" ]] && vars+=("${env}")
 done <<< "$(plugin_read_list SET)"
 
-for var in "${vars[@]}"; do
+for var in ${vars[@]+"${vars[@]}"}; do
   echo "Storing ${var}=${!var} to build metadata" >&2
   plugin_set_metadata "${var}" "${!var}"
 done
