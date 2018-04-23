@@ -7,8 +7,8 @@ export BUILDKITE_AGENT_METADATA_ENV_DEBUG=/dev/tty
 
 @test "Environment gets build metadata" {
   stub buildkite-agent \
-    "meta-data get metadata-env-plugin-FOO : echo foo-123" \
-    "meta-data get metadata-env-plugin-BAR : echo bar-456"
+    "meta-data get env-FOO : echo foo-123" \
+    "meta-data get env-BAR : echo bar-456"
 
   export BUILDKITE_PLUGIN_METADATA_ENV_GET_0="FOO"
   export BUILDKITE_PLUGIN_METADATA_ENV_GET_1="BAR"
@@ -21,4 +21,18 @@ export BUILDKITE_AGENT_METADATA_ENV_DEBUG=/dev/tty
   unstub buildkite-agent
   unset BUILDKITE_PLUGIN_METADATA_ENV_GET_0
   unset BUILDKITE_PLUGIN_METADATA_ENV_GET_1
+}
+
+@test "Environment copes with missing metadata" {
+  stub buildkite-agent \
+    "meta-data get env-MISSING : echo 'Failed to get metadata metadata-env-plugin-API_VERSION' >&2 && exit 1"
+
+  export BUILDKITE_PLUGIN_METADATA_ENV_GET_0="MISSING"
+
+  run "$PWD/hooks/environment"
+
+  assert_output --partial "Value for MISSING is missing or empty in build metadata - not setting variable"
+
+  unstub buildkite-agent
+  unset BUILDKITE_PLUGIN_METADATA_ENV_GET_0
 }

@@ -21,7 +21,7 @@ while IFS=$'\n' read -r env ; do
 done <<< "$(plugin_read_list GET)"
 
 for var in ${vars[@]+"${vars[@]}"}; do
-  value=$(plugin_get_metadata "${var}")
+  value=$(plugin_get_metadata "${var}" || true)
 
   if [[ -z "$value" ]]; then
     echo "Value for ${var} is missing or empty in build metadata - not setting variable" >&2
