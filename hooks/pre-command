@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -euo pipefail
 
@@ -14,7 +14,13 @@ DIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
 . "$DIR/../lib/shared.bash"
 . "$DIR/../lib/metadata.bash"
 
-set="$(plugin_read_list SET)"
+vars=()
 
-env
-echo "Got SET value: ${set}"
+while IFS=$'\n' read -r env ; do
+  [[ -n "${env:-}" ]] && vars+=("${env}")
+done <<< "$(plugin_read_list SET)"
+
+for var in "${vars[@]}"; do
+  plugin_prompt "Storing ${var}=${!var} to build metadata"
+  plugin_set_metadata "${var}" "${!var}"
+done

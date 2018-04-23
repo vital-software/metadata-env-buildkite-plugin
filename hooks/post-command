@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -euo pipefail
 
@@ -14,6 +14,8 @@ DIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
 . "$DIR/../lib/shared.bash"
 . "$DIR/../lib/metadata.bash"
 
-set="$(plugin_read_list SET)"
+get="$(plugin_read_list GET)"
 
-echo "Got value: ${set}"
+for env in "$get"; do
+    echo "Got var to get: ${env}"
+done

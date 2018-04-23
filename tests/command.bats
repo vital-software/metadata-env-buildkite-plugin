@@ -3,20 +3,25 @@
 load '/usr/local/lib/bats/load.bash'
 
 # Uncomment to enable stub debug output:
-# export BUILDKITE_AGENT_METADATA_ENV_DEBUG=/dev/tty
+export BUILDKITE_AGENT_METADATA_ENV_DEBUG=/dev/tty
 
 @test "Pre-command sets build metadata" {
   stub buildkite-agent \
-    "metadata-env get FOO : echo Setting metadata"
+    "meta-data set metadata-env-plugin-FOO foo-123 : echo Setting metadata-env-plugin-FOO" \
+    "meta-data set metadata-env-plugin-BAR bar-456 : echo Setting metadata-env-plugin-BAR"
 
-  export BUILDKITE_PLUGIN_METADATA_ENV_SET_1="FOO"
-  export BUILDKITE_PLUGIN_METADATA_ENV_SET_2="BAR"
+  export BUILDKITE_PLUGIN_METADATA_ENV_SET_0="FOO"
+  export BUILDKITE_PLUGIN_METADATA_ENV_SET_1="BAR"
+  export FOO="foo-123"
+  export BAR="bar-456"
+
   run "$PWD/hooks/pre-command"
 
   assert_success
-  assert_output --partial "Setting metadata"
+  assert_output --partial "Setting metadata-env-plugin-FOO"
+  assert_output --partial "Setting metadata-env-plugin-BAR"
 
   unstub buildkite-agent
+  unset BUILDKITE_PLUGIN_METADATA_ENV_SET_0
   unset BUILDKITE_PLUGIN_METADATA_ENV_SET_1
-  unset BUILDKITE_PLUGIN_METADATA_ENV_SET_2
 }
