@@ -22,6 +22,11 @@ done <<< "$(plugin_read_list GET)"
 
 for var in ${vars[@]+"${vars[@]}"}; do
   value=$(plugin_get_metadata "${var}")
-  echo "Retrieved ${var}=${value} from build metadata" >&2
-  export ${var}=${value}
+
+  if [[ -z "$value" ]]; then
+    echo "Value for ${var} is missing or empty in build metadata - not setting variable" >&2
+  else
+    echo "Retrieved ${var}=${value} from build metadata" >&2
+    export ${var}=${value}
+  fi
 done
