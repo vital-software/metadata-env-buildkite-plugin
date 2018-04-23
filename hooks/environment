@@ -10,3 +10,4 @@ if [[ "${BUILDKITE_PLUGIN_METADATA_ENV_DEBUG:-false}" =~ (true|on|1) ]] ; then
 fi
 
 echo "ENV_TEST_METADATA=some-value"
+export ENV_TEST_METADATA_2=some-other-value
