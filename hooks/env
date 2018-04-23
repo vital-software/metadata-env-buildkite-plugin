@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+debug_mode='off'
+if [[ "${BUILDKITE_PLUGIN_METADATA_ENV_DEBUG:-false}" =~ (true|on|1) ]] ; then
+  echo "--- :hammer: Enabling debug mode"
+  debug_mode='on'
+  set -x
+fi
+
+echo "ENV_TEST_METADATA=some-value"
