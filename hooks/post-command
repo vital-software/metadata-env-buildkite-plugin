@@ -14,8 +14,13 @@ DIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
 . "$DIR/../lib/shared.bash"
 . "$DIR/../lib/metadata.bash"
 
-get="$(plugin_read_list GET)"
+vars=()
 
-for env in "$get"; do
-    echo "Got var to get: ${env}"
+while IFS=$'\n' read -r env ; do
+  [[ -n "${env:-}" ]] && vars+=("${env}")
+done <<< "$(plugin_read_list SET)"
+
+for var in "${vars[@]}"; do
+  echo "Storing ${var}=${!var} to build metadata" >&2
+  plugin_set_metadata "${var}" "${!var}"
 done

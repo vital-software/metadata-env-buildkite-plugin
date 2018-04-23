@@ -18,9 +18,10 @@ vars=()
 
 while IFS=$'\n' read -r env ; do
   [[ -n "${env:-}" ]] && vars+=("${env}")
-done <<< "$(plugin_read_list SET)"
+done <<< "$(plugin_read_list GET)"
 
 for var in "${vars[@]}"; do
-  plugin_prompt "Storing ${var}=${!var} to build metadata"
-  plugin_set_metadata "${var}" "${!var}"
+  value=$(plugin_get_metadata "${var}")
+  echo "Retrieved ${var}=${value} from build metadata" >&2
+  export ${var}=${value}
 done
