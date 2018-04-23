@@ -9,5 +9,24 @@ if [[ "${BUILDKITE_PLUGIN_METADATA_ENV_DEBUG:-false}" =~ (true|on|1) ]] ; then
   set -x
 fi
 
-echo "ENV_TEST_METADATA=some-value"
-export ENV_TEST_METADATA_2=some-other-value
+DIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
+
+. "$DIR/../lib/shared.bash"
+. "$DIR/../lib/metadata.bash"
+
+vars=()
+
+while IFS=$'\n' read -r env ; do
+  [[ -n "${env:-}" ]] && vars+=("${env}")
+done <<< "$(plugin_read_list GET)"
+
+for var in ${vars[@]+"${vars[@]}"}; do
+  value=$(plugin_get_metadata "${var}")
+
+  if [[ -z "$value" ]]; then
+    echo "Value for ${var} is missing or empty in build metadata - not setting variable" >&2
+  else
+    echo "Retrieved ${var}=${value} from build metadata" >&2
+    export ${var}=${value}
+  fi
+done
