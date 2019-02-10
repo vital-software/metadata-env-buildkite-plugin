@@ -32,8 +32,8 @@ steps:
   - label:   "Retrieve and use an env var"
     command: echo "The value was $FOO"
     plugins:
-      vital-software/metadata-env#0.0.1:
-        get: [FOO]
+      - vital-software/metadata-env#0.0.1:
+          get: [FOO]
 ```
 
 ## Configuration
