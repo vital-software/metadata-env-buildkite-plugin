@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# BATS cannot assert on environment variables set in a subshell
+# https://github.com/bats-core/bats-core/issues/168
+# This provides a wrapper so we can assert on environment variables set
+
+set -euo pipefail
+
+. "$PWD/hooks/environment"
+if [ "$SPACE" = "Contains some spaces" ] 
+then
+    echo "Environment Variable SPACE: '$SPACE' as expected"
+else
+    echo "Environment Variable SPACE: '$SPACE' is not expected"
+fi

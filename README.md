@@ -51,6 +51,15 @@ build metadata, if set, and used for the current command.
   post-command hook won't have access to it. Suggestions for working around
   that are welcome.
 
+## Developing
+
+To run the tests:
+
+```bash
+docker-compose run --rm tests
+```
+
+
 ## License
 
 MIT (see [LICENSE](LICENSE))
