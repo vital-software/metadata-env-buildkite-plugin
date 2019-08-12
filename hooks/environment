@@ -27,6 +27,6 @@ for var in ${vars[@]+"${vars[@]}"}; do
     echo "Value for ${var} is missing or empty in build metadata - not setting variable" >&2
   else
     echo "Retrieved ${var}=${value} from build metadata" >&2
-    export ${var}=${value}
+    export "${var}"="${value}"
   fi
 done
