@@ -1,4 +1,4 @@
-# Metadata Env Buildkite Plugin
+# Metadata Env Buildkite Plugin [![Build status](https://badge.buildkite.com/bbe46dcd1115c367a4a8018bd0df56059f72da1feb76a88e66.svg?branch=master)](https://buildkite.com/vital/metadata-env-buildkite-plugin)
 
 A [Buildkite plugin](https://buildkite.com/docs/agent/v3/plugins) for
 retrieving build metadata values and setting them as environment variables.
